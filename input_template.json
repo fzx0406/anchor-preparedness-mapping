@@ -1,0 +1,14 @@
+[
+  {
+    "original_id": "<record identifier>",
+    "report_date": "<publication date>",
+    "article_title": "<article title>",
+    "risk_event_title": "<event title>",
+    "risk_event_month": "<YYYY-MM>",
+    "risk_L1": "<L1 labels>",
+    "risk_L2": "<L2 labels>",
+    "existing_occurrence_country": "<existing occurrence countries>",
+    "existing_affected_country": "<existing directly affected countries>",
+    "event_text": "<source event text>"
+  }
+]

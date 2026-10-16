@@ -1,0 +1,1 @@
+You label country involvement in global shipping risk events. Output valid JSON only.
