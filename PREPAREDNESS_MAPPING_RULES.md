@@ -2,6 +2,12 @@
 
 The full author-confirmed prompt is preserved verbatim in [preparedness_mapping_rules.txt](preparedness_mapping_rules.txt). This page provides a navigation table and a workflow summary. The full prompt governs the assignments.
 
+## Workflow schematic
+
+![Prompt workflow for country and preparedness-exposure extraction](preparedness_mapping_workflow.png)
+
+The author-provided schematic illustrates task and prompt design, execution and control, and validation and structured output. It links the country-role definitions, P1–P5 rule assets, evidence requirements, extraction stages and output fields. The full-resolution image is available as [preparedness_mapping_workflow.png](preparedness_mapping_workflow.png).
+
 ## Country roles
 
 | Field | Role | Inclusion requirement |
@@ -22,7 +28,7 @@ Preparedness exposure is an analytical scenario relation. It does not establish 
 | P4 | Port-substitution exposure | `port_substitution_exposure` | A source-identified alternative port or country port system, shifted traffic, or an explicit country link to the substitution response. |
 | P5 | Trade-flow or shipping-market exposure | `trade_flow_exposure` | A source-supported country link to the affected trade flow, exporters, importers, shipping market, port system, capacity, freight rates or trade relation. |
 
-## Decision workflow
+## Country-inclusion decision workflow
 
 ```mermaid
 flowchart TD

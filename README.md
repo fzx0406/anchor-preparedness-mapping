@@ -2,6 +2,12 @@
 
 Country-role definitions, P1–P5 preparedness-exposure rules, evidence requirements and prompt assets for shipping-risk records.
 
+## Workflow schematic
+
+![Prompt workflow for country and preparedness-exposure extraction](preparedness_mapping_workflow.png)
+
+The author-provided schematic illustrates task and prompt design, execution and control, and validation and structured output. It links the country-role definitions, P1–P5 rule assets, evidence requirements, extraction stages and output fields. The full-resolution image is available as [preparedness_mapping_workflow.png](preparedness_mapping_workflow.png).
+
 ## Author-confirmed mapping specification
 
 - [preparedness_mapping_rules.txt](preparedness_mapping_rules.txt): complete author-supplied prompt, preserved verbatim.
@@ -12,7 +18,7 @@ The five preparedness relationships are trade-lane exposure, rerouting exposure,
 
 Preparedness exposure represents an analytical scenario relation. Inclusion does not establish observed disruption, realised loss or cross-border propagation.
 
-The full prompt and the corresponding rule table and flowchart are also included in the accompanying Supplementary Information.
+The prompt, mapping rules and workflow schematic are documented directly in this repository.
 
 ## Earlier script-extracted prompt and request builder
 
