@@ -1,38 +1,38 @@
-# ANCHOR preparedness-exposure mapping prompt
+# ANCHOR preparedness-exposure mapping
 
-Prompt construction and JSON request-format code for assigning three country roles in shipping-risk records:
+Country-role definitions, P1–P5 preparedness-exposure rules, evidence requirements and prompt assets for shipping-risk records.
 
-- Reported risk origin: `occurrence_countries_strict`
-- Documented exposure: `direct_affected_countries`
-- Preparedness exposure: `shipping_network_affected_countries`
+## Author-confirmed mapping specification
 
-The preparedness field permits inference through shipping networks, trade lanes, chokepoints, rerouting, port substitution and related commercial mechanisms. It identifies candidate countries for preparedness analysis. Inclusion does not establish a reported consequence or realised loss.
+- [preparedness_mapping_rules.txt](preparedness_mapping_rules.txt): complete author-supplied prompt, preserved verbatim.
+- [PREPAREDNESS_MAPPING_RULES.md](PREPAREDNESS_MAPPING_RULES.md): country-role table, P1–P5 rule index, decision flowchart, evidence requirements and output-format correspondence.
+- [prompt_provenance.json](prompt_provenance.json): source description, file digest and relationship to the earlier script-extracted release.
 
-## Files
+The five preparedness relationships are trade-lane exposure, rerouting exposure, chokepoint exposure, port-substitution exposure and trade-flow or shipping-market exposure. Every preparedness country requires a source-supported country relation, at least one rule ID and label, a shipping explanation, and supporting source evidence or context. The prompt also specifies deduplication, unknown handling, the 20-country evidence-priority rule and twelve final self-checks.
 
-- `country_mapping_prompt.py`: original prompt-construction function and a standalone request-rendering wrapper.
-- `system_prompt.txt`: complete system instruction.
-- `user_prompt_template.txt`: complete user template, with a placeholder for the serialized input batch.
-- `input_template.json`: input-field template. Replace its bracketed placeholders before using it with actual records.
+Preparedness exposure represents an analytical scenario relation. Inclusion does not establish observed disruption, realised loss or cross-border propagation.
 
-The rule table, processing workflow and archived output examples are documented in the accompanying Supplementary Information.
+The full prompt and the corresponding rule table and flowchart are also included in the accompanying Supplementary Information.
 
-## Usage
+## Earlier script-extracted prompt and request builder
 
-Python 3.9 or later is sufficient; the module uses only the standard library.
+The first repository release, [commit ede5d9034526](https://github.com/fzx0406/anchor-preparedness-mapping/tree/ede5d9034526e2e0f3afda056e2d5fcdad7e2aa0), contains the prompt extracted from `expand_shipping_country_impacts_deepseek.py`. These files remain available for tracing that implementation:
+
+- `country_mapping_prompt.py`: script-extracted prompt-construction function and standalone request renderer.
+- `system_prompt.txt`: system instruction used by that renderer.
+- `user_prompt_template.txt`: earlier script-extracted user prompt.
+- `input_template.json`: placeholder input batch for that renderer.
+
+The author-confirmed specification uses `directly_affected_countries` and country-level `preparedness_exposure` entries. The earlier script uses `direct_affected_countries` and role-level `country_evidence`. Its broader country-inference instructions and list-processing fallbacks must be distinguished from the P1–P5 specification. The existing renderer preserves its original behavior and does not implement the new output format or the P1–P5 checks.
+
+## Rendering the earlier request
+
+Python 3.9 or later is sufficient; the renderer uses only the standard library.
 
 ```bash
 python country_mapping_prompt.py --input input_template.json --model YOUR_ACTUAL_MODEL_ID --output request.json
 ```
 
-This command writes a JSON request payload. It does not call a model API.
+This writes the earlier JSON request payload and makes no model API call. The model identifier is explicit. The request uses `temperature=0.0`, JSON-object formatting, a default 2,200-character input-text limit and a default 10,000-token output limit. The renderer collapses whitespace and appends ` ...` after truncation.
 
-The model identifier is supplied explicitly. The request uses `temperature=0.0` and JSON-object response formatting. The default text-length cap is 2,200 characters and the default output-token limit is 10,000:
-
-```bash
-python country_mapping_prompt.py --input YOUR_INPUT.json --model YOUR_ACTUAL_MODEL_ID --max-input-chars 2200 --max-tokens 10000 --output request.json
-```
-
-The wrapper collapses whitespace in `event_text` and appends ` ...` after truncation. The `build_prompt` function preserves the original prompt text and input-field selection. File loading, command-line options and request rendering were added for this standalone release.
-
-Record the actual model version, call dates and parameter overrides when running the mapping. Fixed prompts and zero temperature do not guarantee that later hosted-model calls return identical country lists. Reconstructing the reported aggregate counts requires the corresponding frozen record-level outputs and aggregation procedure.
+The publication of a prompt specifies the rules available for inspection and reuse. Reconstructing study counts additionally requires the applicable run configuration, frozen record-level assignments and aggregation procedure.

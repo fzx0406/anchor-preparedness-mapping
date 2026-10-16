@@ -1,0 +1,397 @@
+Country and preparedness-exposure mapping rules
+
+Definitions
+
+1. occurrence_countries_strict
+   Countries in which the triggering risk event explicitly occurred.
+   This field represents reported risk-origin geography.
+
+2. directly_affected_countries
+   Countries for which the source explicitly reports an operational,
+   commercial, regulatory, logistics, or supply-chain consequence.
+   This field represents documented-exposure geography.
+
+3. shipping_network_affected_countries
+   Countries that are relevant for preparedness because the source
+   establishes a shipping, rerouting, chokepoint, port-substitution,
+   trade-lane, or trade-flow relationship with the reported event.
+   This field represents preparedness-exposure geography.
+
+Preparedness exposure is an analytical scenario relation.
+It does not mean that disruption, loss, or propagation was actually observed
+in the included country.
+
+
+General country rules
+
+- Use standard English country names only, e.g. United States, China,
+  Russia, United Kingdom, South Korea.
+
+- Do not output ports, cities, terminals, canals, straits, seas, oceans,
+  continents, or regions as countries.
+
+- Do not output labels such as Europe, Asia, Global, Middle East,
+  Red Sea, Suez Canal, Panama Canal, or Strait of Hormuz in any country list.
+
+- occurrence_countries_strict must be narrow.
+  Include a country only when the source explicitly locates the triggering
+  event in that country.
+
+- directly_affected_countries must also be source-supported.
+  Include a country only when the source explicitly states that the country,
+  its national market, its ports, its shipping services, or its trade flows
+  experienced an operational, commercial, regulatory, or supply-chain effect.
+
+- shipping_network_affected_countries may be broader than
+  directly_affected_countries, but every additional country must satisfy
+  at least one preparedness-exposure rule P1--P5 below.
+
+- Do not add countries solely because they are economically important,
+  geographically close, major maritime nations, large trading economies,
+  or generally connected to global shipping.
+
+- Do not infer an unrestricted list of countries from regional expressions
+  such as "Europe", "Asia", "Middle East", or "global shipping".
+
+- A regional expression may support preparedness exposure only for countries
+  that are also identifiable from the same source text through a specific
+  route, trade, rerouting, port, or market relationship.
+
+- If a port or city is mentioned, output the corresponding country only when
+  the country can be established from information contained in the source
+  record. Do not output the port or city itself.
+
+- If no defensible country can be identified for a field, return ["Unknown"].
+
+- Remove duplicate countries.
+
+- Return no more than 20 countries in
+  shipping_network_affected_countries.
+
+- Every country included in shipping_network_affected_countries must have:
+  (1) at least one preparedness-exposure label;
+  (2) at least one corresponding rule ID;
+  (3) a short explanation of the shipping logic;
+  (4) source-supported evidence or source context.
+
+
+Preparedness-exposure labels
+
+Each country in shipping_network_affected_countries must be assigned
+one or more of the following preparedness-exposure labels:
+
+P1 -> trade_lane_exposure
+P2 -> rerouting_exposure
+P3 -> chokepoint_exposure
+P4 -> port_substitution_exposure
+P5 -> trade_flow_exposure
+
+If more than one rule applies to the same country, include the country only
+once in shipping_network_affected_countries, but retain all applicable
+preparedness-exposure labels and rule IDs.
+
+
+P1. Trade-lane exposure
+preparedness_exposure label: trade_lane_exposure
+
+Apply P1 when the source identifies an affected maritime trade lane,
+shipping service, origin-destination route, liner corridor, tanker route,
+dry-bulk route, container route, or other identifiable shipping connection.
+
+Include a country under P1 only if at least one of the following is true:
+
+(a) the country is explicitly identified as an origin of the affected route;
+(b) the country is explicitly identified as a destination of the affected route;
+(c) the source explicitly connects the country's ports, cargo, exporters,
+    importers, carriers, or national market to the affected route;
+(d) the country is explicitly identified as part of the shipping service
+    or trade-lane context described in the source.
+
+Do not add countries merely because a general regional route such as
+"Asia-Europe trade" is mentioned.
+
+If the source only names regions and provides no country-level information,
+do not generate country assignments under P1.
+
+
+P2. Rerouting exposure
+preparedness_exposure label: rerouting_exposure
+
+Apply P2 only when the source explicitly describes rerouting, diversion,
+avoidance, route extension, route switching, alternative routing,
+or the use of another maritime corridor.
+
+First identify from the source:
+
+(a) the disrupted route, waterway, corridor, or shipping service; and
+(b) the alternative route or rerouting response, when stated.
+
+Include a country under P2 only when the source establishes that the country:
+
+(a) is an origin or destination of the rerouted service;
+(b) has ports or shipping services explicitly involved in the rerouting;
+(c) is explicitly described as receiving diverted traffic;
+(d) is explicitly described as facing additional voyage distance,
+    delay, capacity pressure, freight effects, or operational adjustment
+    because of the rerouting.
+
+Do not add countries simply because an event causes vessels to reroute
+around a major maritime area.
+
+Do not infer all countries that could theoretically use the affected route.
+
+If the source establishes rerouting but no country-level relation can be
+identified, do not create additional country assignments under P2.
+
+
+P3. Chokepoint exposure
+preparedness_exposure label: chokepoint_exposure
+
+Apply P3 when the source identifies disruption, restriction, congestion,
+closure, security risk, low-water conditions, or another operational problem
+at a canal, strait, maritime chokepoint, or constrained waterway.
+
+Include a country under P3 only when the source establishes a country-level
+relationship with that chokepoint, such as:
+
+(a) the country's imports or exports use the affected chokepoint;
+(b) the country's ports or shipping services are explicitly linked to it;
+(c) the country's vessels, cargo flows, or markets are explicitly described
+    as being exposed to the chokepoint disruption;
+(d) the source explicitly reports a national operational or preparedness
+    implication arising from the chokepoint disruption.
+
+Do not convert the geographical location of a chokepoint directly into
+a broad list of potentially dependent countries.
+
+The country in which a canal, strait, or waterway is geographically located
+does not automatically become a preparedness-exposure country unless it also
+satisfies one of the above conditions. Its role as an occurrence country
+should be handled separately in occurrence_countries_strict.
+
+
+P4. Port-substitution exposure
+preparedness_exposure label: port_substitution_exposure
+
+Apply P4 when the source describes port substitution, cargo diversion,
+alternative-port use, traffic shifting, replacement port capacity,
+or another response in which cargo or vessel calls move from one port
+to another.
+
+Include a country under P4 only when:
+
+(a) an alternative or substitute port in that country is explicitly named;
+(b) the source explicitly states that traffic, vessels, or cargo were shifted
+    to a port in that country;
+(c) the source explicitly identifies that country's port system as an
+    alternative for the disrupted location;
+(d) the source explicitly links the country to a substitution response
+    resulting from the disruption.
+
+For a domestic port disruption, do not automatically include major foreign
+trading partners.
+
+Do not infer alternative ports solely from geographical proximity,
+port size, or general maritime knowledge.
+
+If the source discusses possible port substitution but does not identify
+a country-level alternative, do not generate an additional country under P4.
+
+
+P5. Trade-flow or shipping-market exposure
+preparedness_exposure label: trade_flow_exposure
+
+Apply P5 when the source describes effects on international trade flows,
+container flows, dry-bulk flows, tanker flows, cargo allocation,
+shipping capacity, freight rates, insurance conditions, or maritime markets.
+
+Include a country under P5 only when the source explicitly establishes that:
+
+(a) the country is an origin or destination of the affected trade flow;
+(b) the country's exporters or importers are linked to the affected flow;
+(c) the country's shipping market or port system is linked to the
+    described capacity or freight-rate effect;
+(d) a bilateral or multilateral trade relation involving that country is
+    explicitly identified in the source.
+
+A general statement such as "global freight rates increased",
+"world trade was affected", or "Asian markets were disrupted"
+is not sufficient to add individual countries.
+
+Do not expand general market effects into country lists unless the source
+provides country-level support.
+
+
+Relationship between the three country layers
+
+A country may appear in more than one geographical layer.
+
+Case 1:
+If the triggering event occurs in country A,
+include A in occurrence_countries_strict.
+
+Case 2:
+If the source explicitly states that country B experienced a consequence,
+include B in directly_affected_countries.
+
+Case 3:
+If country C is not explicitly described as having experienced a realised
+effect, but the source establishes one of the P1--P5 preparedness relations,
+include C in shipping_network_affected_countries only.
+
+Do not move a preparedness-exposure country into
+directly_affected_countries unless the source explicitly documents an effect.
+
+Do not interpret shipping_network_affected_countries as evidence
+of realised cross-border transmission.
+
+
+Multiple-rule handling
+
+- Evaluate P1--P5 independently.
+
+- A country may satisfy more than one preparedness rule.
+
+- If a country satisfies multiple rules, list the country only once in
+  shipping_network_affected_countries.
+
+- Retain all applicable preparedness-exposure labels and rule IDs
+  for that country.
+
+Example:
+If a country is both an endpoint of an affected trade lane and explicitly
+affected by rerouting, assign:
+
+labels:
+["trade_lane_exposure", "rerouting_exposure"]
+
+rule_ids:
+["P1", "P2"]
+
+
+Maximum-country rule
+
+If 20 or fewer countries satisfy P1--P5, retain all qualifying countries.
+
+If more than 20 countries satisfy P1--P5, retain countries according to
+the following evidence priority:
+
+Priority 1:
+Countries explicitly named in the source as having a route, rerouting,
+substitution, chokepoint, or trade-flow relationship.
+
+Priority 2:
+Countries whose ports, exporters, importers, carriers, cargo flows,
+or national markets are explicitly connected to the event in the source.
+
+Priority 3:
+Countries supported only through broader source-described regional
+shipping or trade context.
+
+Within the same priority level, preserve the order in which the supporting
+country relations appear in the source.
+
+Do not rank countries by GDP, trade volume, political importance,
+port size, or general maritime importance.
+
+Set truncated = true whenever qualifying countries are removed because
+of the 20-country limit.
+
+
+Unknown handling
+
+Return ["Unknown"] only when no defensible country can be assigned
+to the relevant field.
+
+Do not use ["Unknown"] together with valid country names in the same field.
+
+For preparedness exposure, if the event clearly involves a network mechanism
+but no country-level relation can be established from the source,
+return ["Unknown"] and explain the reason in unknown_reason.
+
+
+Evidence requirements
+
+For every country included in shipping_network_affected_countries,
+record:
+
+- country
+- preparedness_exposure label or labels
+- rule_id or rule_ids
+- trigger_type
+- short shipping logic
+- supporting source phrase or source-supported context
+
+The explanation must identify why the country was included.
+Do not provide a generic explanation that could apply to any country.
+
+Good:
+"Rule P2: Germany is included because the source states that
+Asia-Europe services to German ports were rerouted around the Cape."
+
+Bad:
+"Germany is important to global shipping."
+
+
+Required output structure
+
+{
+  "occurrence_countries_strict": [],
+  "directly_affected_countries": [],
+  "shipping_network_affected_countries": [],
+
+  "preparedness_exposure": [
+    {
+      "country": "",
+      "labels": [],
+      "rule_ids": [],
+      "trigger_type": [],
+      "evidence": "",
+      "source_phrase": ""
+    }
+  ],
+
+  "scenario_type": [],
+
+  "rule_trace": [],
+
+  "truncated": false,
+
+  "truncated_countries": [],
+
+  "unknown_reason": ""
+}
+
+
+Final self-check before output
+
+Before returning the result, verify all of the following:
+
+1. Every occurrence country is explicitly supported as the event location.
+
+2. Every directly affected country has an explicitly documented consequence.
+
+3. Every preparedness-exposure country satisfies at least one rule P1--P5.
+
+4. Every preparedness-exposure country has at least one corresponding
+   preparedness-exposure label.
+
+5. Every preparedness-exposure country has at least one rule ID.
+
+6. No country was added solely from general world knowledge,
+   economic importance, geographic proximity, or subjective relevance.
+
+7. No port, city, canal, sea, region, continent, or "Global" label appears
+   in a country field.
+
+8. Regional expressions have not been freely converted into country lists.
+
+9. Duplicate countries have been removed.
+
+10. The number of shipping_network_affected_countries does not exceed 20.
+
+11. If more than 20 countries qualified, the stated evidence-priority rule
+    was applied and truncated was set to true.
+
+12. No preparedness-exposure relation is described as realised propagation
+    unless the source explicitly documents that consequence.

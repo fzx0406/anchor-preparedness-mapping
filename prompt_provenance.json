@@ -1,0 +1,38 @@
+{
+  "author_confirmed_specification": {
+    "file": "preparedness_mapping_rules.txt",
+    "title": "Country and preparedness-exposure mapping rules",
+    "source": "Author-supplied text confirmed in the research revision conversation on 2026-10-16.",
+    "sha256": "dfd04ad050cdda1b1415148814f786ab6a9d8e15c876d6146e93a9f8f48abb38",
+    "preservation": "Byte-for-byte copy of the author-supplied UTF-8 text.",
+    "rule_ids": [
+      "P1",
+      "P2",
+      "P3",
+      "P4",
+      "P5"
+    ]
+  },
+  "guide": {
+    "file": "PREPAREDNESS_MAPPING_RULES.md",
+    "status": "Editorial summary and flowchart derived from the author-supplied specification."
+  },
+  "earlier_script_release": {
+    "commit": "ede5d9034526e2e0f3afda056e2d5fcdad7e2aa0",
+    "source_script": "expand_shipping_country_impacts_deepseek.py",
+    "files": [
+      "country_mapping_prompt.py",
+      "system_prompt.txt",
+      "user_prompt_template.txt",
+      "input_template.json"
+    ],
+    "documented_exposure_field": "direct_affected_countries",
+    "evidence_structure": "country_evidence: role-level explanations"
+  },
+  "author_confirmed_output_format": {
+    "documented_exposure_field": "directly_affected_countries",
+    "evidence_structure": "preparedness_exposure: country-specific labels, rule IDs, trigger type, explanation and source support"
+  },
+  "release_scope": "Publication of the author-confirmed rule text and derived documentation. Existing renderer and stored outputs are unchanged. No model calls or reanalysis were performed.",
+  "historical_run_metadata": "Establish prompt version, model identifier, call dates and parameter settings from the applicable run records."
+}
