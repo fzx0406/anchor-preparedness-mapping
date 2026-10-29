@@ -2,6 +2,11 @@
 
 Country-role definitions, P1–P5 preparedness-exposure rules, evidence requirements and prompt assets for shipping-risk records.
 
+## Data collection sources and search keywords
+
+- [Collection channels and search strategy](DATA_COLLECTION_SOURCES_AND_KEYWORDS.md): the author-provided list of 16 report, news and company-information channels, official websites, institutional report links, and news-search keywords.
+- [news_search_query.txt](news_search_query.txt): the original Boolean query combining 16 object terms with 21 event terms.
+
 ## Workflow schematic
 
 ![Prompt workflow for country and preparedness-exposure extraction](preparedness_mapping_workflow.png)

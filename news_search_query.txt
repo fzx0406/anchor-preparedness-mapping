@@ -1,0 +1,14 @@
+("port" OR "container" OR "shipping" OR "terminal" OR "bulk"
+ OR "container yard" OR "seaport" OR "maritime"
+ OR "cargo ship" OR "tanker" OR "liner shipping"
+ OR "shipping line" OR "port authority"
+ OR "sea lane" OR "trade lane" OR "shipping corridor")
+
+AND
+
+("disruption" OR "delay" OR "incident" OR "congestion" OR "shutdown"
+ OR "backlog" OR "collision" OR "accident" OR "explosion"
+ OR "strike" OR "labor shortage" OR "attack" OR "piracy"
+ OR "reroute" OR "diversion" OR "suspension"
+ OR "sanctions" OR "export restriction" OR "regulatory change"
+ OR "extreme weather" OR "hurricane")
